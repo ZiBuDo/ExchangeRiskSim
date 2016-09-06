@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/fonts-awesome.min.css">
+    <link rel="icon" href="http://projects.miscthings.xyz/assets/img/favicon.ico">
+	<link rel="shortcut icon" href="http://projects.miscthings.xyz/assets/img/favicon.ico" />
+    <title>Market Simulation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+	<link href="css/justified-nav.css" rel="stylesheet">
+	
+  </head>
+	
+  <body>
+	<div class="container">
+	
+		<!-- Static navbar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Exchange Rate Simulation</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a data-toggle="tab" href="#Scenario">Scenario</a></li>
+              <li><a data-toggle="tab" href="#Financial">Financial Information</a></li>
+              <li><a data-toggle="tab" href="#Decisions">Decisions</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rounds<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a data-toggle="tab" href="#Round1">Round 1</a></li>
+                  <li><a data-toggle="tab" href="#Round2">Round 2</a></li>
+                  <li><a data-toggle="tab" href="#Round3">Round 3</a></li>
+				  <li><a data-toggle="tab" href="#Round4">Final Results</a></li>
+                </ul>
+              </li>
+			   <li><a data-toggle="tab" href="#Documentation">Documentation</a></li>
+			   <li><a data-toggle="tab" href="#Highscores">High Scores</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+	
+	</div>
+	<br><br>
+	<div class="container">
+	<center>
+		<div class="loader">
+			<div class="loader-inner">
+				<div class="loader-line-wrap">
+					<div class="loader-line"></div>
+				</div>
+				<div class="loader-line-wrap">
+					<div class="loader-line"></div>
+				</div>
+				<div class="loader-line-wrap">
+					<div class="loader-line"></div>
+				</div>
+				<div class="loader-line-wrap">
+					<div class="loader-line"></div>
+				</div>
+				<div class="loader-line-wrap">
+					<div class="loader-line"></div>
+				</div>
+			</div>
+		</div>
+	</center>
+	
+	
+	<div id="stuff" class="tab-content" style="display:none">
+	<div class="tab-pane fade in active" id="Scenario">
+		<div class="col-xs-12 col-md-12">
+			<center>
+				<h2>Scenario</h2>
+				<p>
+					You are in charge of managing exchange risk for Generic Company, a United States based firm who specializes in manufacturing widgets. These widgets require a rare metal 
+					which is mined in Germany. Therefore, the company imports the rare metal from Europe to be used in production. The production of the firm resides 
+					in Mexico, and thus the firm pays all production costs in Pesos. Finally, the product is then exported from Mexico and imported into the United States
+					to be sold to its final consumers. Each Round consists of 1 year, and the financial charts will update with the past years information added on.
+				</p>
+			</center>
+				<br><br>
+				<p>
+					Since Generic Company is tied with international affairs, the company faces many risks related to exchange rate risks.
+					<ul>
+						<li><b>Transaction Risk</b> - A company has a contract for goods in a foreign currency and the exchange rate changes unfavorably.</li>
+							<ul>
+								<li>The import of rare metals from Germany has a risk with the Dollar to Euro exchange rate.</li>
+							</ul>
+						<li><b>Translation Risk</b> - A company with assets, liabilities, and income in a foreign currency will be affected by a change in the exchange rate.</li>
+							<ul>
+								<li>Generic Company is a U.S. based company and should be valued based on value in U.S. Dollars.</li>
+							</ul>
+						<li><b>Economic/Operating Exposure Risk</b> - A corporation that competes against or outsources to a foreign company will be impacted if the foreign currency changes.</li>
+							<ul>
+								<li>Generic Company outsources work to Mexico, and thus must pay in Pesos for production costs.</li>
+							</ul>
+					</ul>
+				</p>
+				<br>
+				<p>
+					Generic Company has three accounts, one for each currency it trades in which is $, &euro;, and &#8369;. You will be able to invest these accounts at the interest rate
+					in those specific markets. Then every Round you will be asked to make a decision on how to handle exchange rate risk based on a future expense in the future.
+					<br>
+					Each round you will have the choice on how to manage the exchange rate risk based on financial information.
+					<ul>
+						<li><b>Purchase/Sell Forward Contracts</b> - Lock in a rate for a currency exchange now and trade in the future.</li>
+						<li><b>Purchase Calls</b> - A currency option that has a payoff when the underlying asset is worth more than the strike price at expiration.</li>
+						<li><b>Purchase Puts</b> - A currency option that has a payoff when the underlying asset is worth less than the strike price at expiration.</li>
+					</ul>
+					These can be found under decisions and the information to base your decisions on can be found in Financial Information. If you do not purchase a forward contract or
+					any options, then all currency is bought at market rate in the year.
+				</p>
+				<br>
+				<p>
+					<b>Production: </b> Each round you will decide how much to produce and the simulation will reflect proper costs. Price sensitivity of the product matters linearly
+					in the market, and thus it is important to set manufacturing levels based on the price you think you can get based on exchange rates. Price is adjusted for a 
+					30% contribution margin. Based on this input, basic values will be pre-populated to meet this minimum demand for the user to see.
+					<br><br>
+					<b>Loans: </b> Players have the ability to take out and repay loans in U.S. Dollars. Loans are priced at 2% premium to the U.S. Dollar interest rate. 
+					Loans are also taken out if the player lacks sufficient funds and is then converted into the currency to cover funds for production or material costs.
+					At the end of the simulation loans will be substracted from your final U.S. Dollars standing.
+					<br><br>
+					<b>Interest Rates: </b> All funds gain interest for when you hold those funds during the round based on that currency's interest rate.
+					<br><br>
+					<b>Translation: </b> At the end of the simulation all the assets the company has will be converted into U.S. dollars based on the current exchange rate.
+					
+				</p>
+				<br>
+				<center>
+					<div class="row">
+					<h4>Example Currency Graph</h4>
+						<div class="well well-lg col-xs-12 col-md-8 col-md-offset-2" style="background-color:white">
+							<canvas class="img-responsive" id="exampleCurrency" width="400" height="400"></canvas>
+						</div>
+					</div>
+					<div class="row">
+					<h4>Example Interest Rate Graph</h4>
+						<div class="well well-lg col-xs-12 col-md-8 col-md-offset-2 img-responsive" style="background-color:white">
+							<canvas id="exampleInterest" width="400" height="400"></canvas>
+						</div>
+				</div>
+				</center>
+			</center>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="Financial">
+		<center>
+			<h2 id="RoundNumFinancial"></h2>
+			<div class="row">
+			<h3>Exchange Rates</h3>
+			<div class="col-xs-12 col-md-12">
+				<p>
+					<b>$/&euro; - </b> <span id="exchangeDE"></span>
+				</p>
+				<p>
+					<b>$/&#8369; - </b> <span id="exchangeDP"></span>
+				</p>
+				<p>
+					<b>&euro;/&#8369; - </b> <span id="exchangeEP"></span>
+				</p>
+			</div>
+			<div class="well well-lg col-xs-12 col-md-12 img-responsive" style="background-color:white">
+				<canvas id="exrd1" width="400" height="400" style="display:none"></canvas>
+				<canvas id="exrd2" width="400" height="400" style="display:none"></canvas>
+				<canvas id="exrd3" width="400" height="400" style="display:none"></canvas>
+				<canvas id="exrd4" width="400" height="400" style="display:none"></canvas>
+			</div>
+			<h3>Interest Rates (%)</h3>
+			<div class="col-xs-12 col-md-12">
+				<p>
+					<b>$ - </b> <span id="intRateD"></span>
+				</p>
+				<p>
+					<b>&euro; - </b> <span id="intRateE"></span>
+				</p>
+				<p>
+					<b>&#8369; - </b> <span id="intRateP"></span>
+				</p>
+			</div>
+			<div class="well well-lg col-xs-12 col-md-12 img-responsive" style="background-color:white">
+				<canvas id="intrd1" width="400" height="400" style="display:none"></canvas>
+				<canvas id="intrd2" width="400" height="400" style="display:none"></canvas>
+				<canvas id="intrd3" width="400" height="400" style="display:none"></canvas>
+				<canvas id="intrd4" width="400" height="400" style="display:none"></canvas>
+			</div>
+			</div>
+		</center>
+	</div>
+	<div class="tab-pane fade" id="Decisions">
+		<div id="decStuff" class="row">
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Current State: <b id="roundNumDec"></b></h2>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans</th></tr>
+						<tr><td id="fundD"></td><td id="fundE"></td><td id="fundP"></td><td id="fundL"></td></tr>
+					</table>
+				</div>
+			</center>
+			<br><br>
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Production</h2>
+					<h5>Production Costs = &#8369;25,000 + (&#8369;1000 x units)</h5>
+					<h5>Material Costs = &euro;100 x units</h5>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>Inventory</th><th>Produce</th><th>Price</th></tr>
+						<tr><td id="inv"></td><td id="prod"><input id="production" type="number" style="width: 100px"/></td><td id="price"></td></tr>
+					</table>
+					<br>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>Production Costs</th><th>Material Costs</th><th>Projected Sales</th></tr>
+						<tr><td id="prodCosts"></td><td id="matCosts"></td><td id="projSales"></td></tr>
+					</table>
+				</div>
+			</center>
+			<br><br>
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Currency Options ($ denominated)</h2>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<div class="pull-right">
+						<h4>Euro Options</h4>
+						<p><b>Action: </b>Buy</p>
+						<p><b>Type: </b><select id="typee"><option value="call">Call</option><option value="sell">Put</option></select></p>
+						<p><b>Strike: </b><input id="strikee" type="number" style="width: 100px"/></p>
+						<p><b>Price: </b><span id="pricee"></span></p>
+						<p><b>Units: </b><input id="unitse" type="number" style="width: 100px"/></p>
+						<p><b>Cashflow: </b><span id="cashe"></span></p>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<div class="pull-left">
+						<h4>Peso Options</h4>
+						<p><b>Action: </b>Buy</p>
+						<p><b>Type: </b><select id="typep"><option value="call">Call</option><option value="sell">Put</option></select></p>
+						<p><b>Strike: </b><input id="strikep" type="number" style="width: 100px"/></p>
+						<p><b>Price: </b><span id="pricep"></span></p>
+						<p><b>Units: </b><input id="unitsp" type="number" style="width: 100px"/></p>
+						<p><b>Cashflow: </b><span id="cashp"></span></p>
+					</div>
+				</div>
+			</center>
+			<br><br>
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Forward Contracts</h2>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<div class="pull-right">
+						<h4>$->&euro; Contracts</h4>
+						<p><b>Action: </b><select id="actiondec"><option value="buy">Buy</option><option value="sell">Sell</option></select></p>
+						<p><b>Rate: </b><span id="ratedec"></span></p>
+						<p><b>Units: </b><input id="unitsdec" type="number" style="width: 100px"/></p>
+						<p><b>Cashflow: </b><span id="cashdec"></span></p>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<div class="pull-left">
+						<h4>$->&#8369; Contracts</h4>
+						<p><b>Action: </b><select id="actiondpc"><option value="buy">Buy</option><option value="sell">Sell</option></select></p>
+						<p><b>Rate: </b><span id="ratedpc"></span></p>
+						<p><b>Units: </b><input id="unitsdpc" type="number" style="width: 100px"/></p>
+						<p><b>Cashflow: </b><span id="cashdpc"></span></p>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-12">
+					<h4>&euro;->&#8369; Contracts</h4>
+						<p><b>Action: </b><select id="actionepc"><option value="buy">Buy</option><option value="sell">Sell</option></select></p>
+						<p><b>Rate: </b><span id="rateepc"></span></p>
+						<p><b>Units: </b><input id="unitsepc" type="number" style="width: 100px"/></p>
+						<p><b>Cashflow: </b><span id="cashepc"></span></p>
+				</div>
+			</center>
+			<br><br>
+			<center>
+			<div class="col-xs-12 col-md-12">
+				<h2>Loan Management</h2>
+				<p><b>Action: </b><select id="actionLoan"><option value="take">Take Out</option><option value="repay">Repay</option></select></p>
+				<p><b>Amount: </b><input id="amountLoan" type="number" style="width: 100px"/></p>
+				<p><b>Interest Due: </b><span id="intdue"></span></p>
+				<br><br>
+			</div>
+			</center>
+			<br><br>
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Exchange Currencies</h2>
+					<p><b>Dollar to Pesos: </b><input id="d2p" type="number" style="width: 100px"/></p>
+					<p><b>Dollar to Euros: </b><input id="d2e" type="number" style="width: 100px"/></p>
+					<p><b>Euros to Dollars: </b><input id="e2d" type="number" style="width: 100px"/></p>
+					<p><b>Euros to Pesos: </b><input id="e2p" type="number" style="width: 100px"/></p>
+					<p><b>Pesos to Dollars: </b><input id="p2d" type="number" style="width: 100px"/></p>
+					<p><b>Pesos to Euros: </b><input id="p2e" type="number" style="width: 100px"/></p>
+				</div>
+			</center>
+			<br><br>
+			<center>
+				<div class="col-xs-12 col-md-12">
+					<h2>Funds After Decisions</h2>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans ($)</th></tr>
+						<tr><td id="fundDf"></td><td id="fundEf"></td><td id="fundPf"></td><td id="fundLf"></td></tr>
+					</table>
+					<br><br>
+			
+			<center><button type="button" class="btn btn-default" onclick="submitDecisions()">Submit Decisions</button></center>
+				</div>
+			</center>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="Round1">
+		<center id="Round1not1">
+			<h2>Round 1 is not complete yet</h2>
+		</center>
+		<div id="RoundInfo1" class="row" style="display:none">
+			<center>
+				<h2>Results:</h2>
+				<div class="col-xs-12 col-md-12">
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>Beginning Rates</th><th>Ending Rates</th></tr>
+						<tr><td id="ratebDE1"></td><td id="rateeDE1"></td></tr>
+						<tr><td id="ratebDP1"></td><td id="rateeDP1"></td></tr>
+						<tr><td id="ratebEP1"></td><td id="rateeEP1"></td></tr>
+					</table>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Payoffs:</h3>
+					<p><b>Euro Currency Options: </b><span id="euroopt1"></span></p>
+					<p><b>Peso Currency Options: </b><span id="pesoopt1"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Loans:</h3>
+					<p><b>Emergency Loans: </b><span id="eloans1"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>End Results:</h3>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans ($)</th></tr>
+						<tr><td id="fundDf1"></td><td id="fundEf1"></td><td id="fundPf1"></td><td id="fundLf1"></td></tr>
+					</table>
+					<br><br>
+					<button type="button" onclick="toNext()" class="btn btn-primary">Next Round</button>
+				</div>
+				
+			</center>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="Round2">
+		<center id="Round1not2">
+			<h2>Round 2 is not complete yet</h2>
+		</center>
+		<div id="RoundInfo2" class="row" style="display:none">
+			<center>
+				<h2>Results:</h2>
+				<div class="col-xs-12 col-md-12">
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>Beginning Rates</th><th>Ending Rates</th></tr>
+						<tr><td id="ratebDE2"></td><td id="rateeDE2"></td></tr>
+						<tr><td id="ratebDP2"></td><td id="rateeDP2"></td></tr>
+						<tr><td id="ratebEP2"></td><td id="rateeEP2"></td></tr>
+					</table>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Payoffs:</h3>
+					<p><b>Euro Currency Options: </b><span id="euroopt2"></span></p>
+					<p><b>Peso Currency Options: </b><span id="pesoopt2"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Loans:</h3>
+					<p><b>Emergency Loans: </b><span id="eloans2"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>End Results:</h3>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans ($)</th></tr>
+						<tr><td id="fundDf2"></td><td id="fundEf2"></td><td id="fundPf2"></td><td id="fundLf2"></td></tr>
+					</table>
+					<br><br>
+					<button type="button" onclick="toNext()" class="btn btn-primary">Next Round</button>
+				</div>
+				
+			</center>
+		</div>	
+	</div>
+	<div class="tab-pane fade" id="Round3">
+		<center id="Round1not3">
+			<h2>Round 3 is not complete yet</h2>
+		</center>
+		<div id="RoundInfo3" class="row" style="display:none">
+			<center>
+				<h2>Results:</h2>
+				<div class="col-xs-12 col-md-12">
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>Beginning Rates</th><th>Ending Rates</th></tr>
+						<tr><td id="ratebDE3"></td><td id="rateeDE3"></td></tr>
+						<tr><td id="ratebDP3"></td><td id="rateeDP3"></td></tr>
+						<tr><td id="ratebEP3"></td><td id="rateeEP3"></td></tr>
+					</table>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Payoffs:</h3>
+					<p><b>Euro Currency Options: </b><span id="euroopt3"></span></p>
+					<p><b>Peso Currency Options: </b><span id="pesoopt3"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Loans:</h3>
+					<p><b>Emergency Loans: </b><span id="eloans3"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>End Results:</h3>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans ($)</th></tr>
+						<tr><td id="fundDf3"></td><td id="fundEf3"></td><td id="fundPf3"></td><td id="fundLf3"></td></tr>
+					</table>
+					<br><br>
+					<button type="button" onclick="toNext()" class="btn btn-primary">Next Round</button>
+				</div>
+				
+			</center>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="Round4">
+		<center id="Round1not4">
+			<h2>Please Complete All Rounds</h2>
+		</center>
+		<div id="RoundInfo4" class="row" style="display:none">
+			<center>
+				<h2>Results:</h2>
+				<div class="col-xs-12 col-md-12">
+					<h3>End Results:</h3>
+					<table id="tfhover" class="tftable" border="1" style="text-align:center">
+					<tr><th>$</th><th>&euro;</th><th>&#8369;</th><th>Loans ($)</th></tr>
+						<tr><td id="fundDf4"></td><td id="fundEf4"></td><td id="fundPf4"></td><td id="fundLf4"></td></tr>
+					</table>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Final Rates:</h3>
+					<p><b>$ to &euro;: </b><span id="definal"></span></p>
+					<p><b>$ to &#8369;: </b><span id="dpfinal"></span></p>
+					<p><b>&euro; to &#8369;: </b><span id="epfinal"></span></p>
+				</div>
+				<br><br>
+				<div class="col-xs-12 col-md-12">
+					<h3>Final Dollar Value: <span id="finaldollar"></span></h3>
+					<h3>Difficulty Value: <span id="difficulty"></span></h3>
+					<h3>Final Score: <span id="finalscore"></span></h3>
+					<br><br>
+					<button type="button" onclick="submitScore()" class="btn btn-primary">Submit Score</button>
+				</div>
+				
+			</center>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="Documentation">
+			
+	</div>
+	<div class="tab-pane fade" id="Highscores">
+			
+	</div>
+	</div>
+	<footer>
+		<div class="row">
+			<div class="col-md-12 col-xs-12"> 
+				<center>
+					<a href="#"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Back To Top</button></a>
+				</center>
+			</div>
+		</div>
+    </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/assets/bootstrap/js/jquery-3.1.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="js/math.js"></script>
+	<script type="text/javascript" src="js/normal.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+		$(window).on("load", function() {
+			$(".loader").fadeOut("slow");
+			$("#stuff").show();
+		});
+	</script>
+  </body>
+</html>
