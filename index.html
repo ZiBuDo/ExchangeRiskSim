@@ -19,7 +19,7 @@
 	<link href="css/justified-nav.css" rel="stylesheet">
 	
   </head>
-	
+
   <body>
 	<div class="container">
 	
@@ -440,7 +440,7 @@
 						<tr><td id="fundDf3"></td><td id="fundEf3"></td><td id="fundPf3"></td><td id="fundLf3"></td></tr>
 					</table>
 					<br><br>
-					<button type="button" onclick="toNext()" class="btn btn-primary">Next Round</button>
+					<button type="button" onclick="toFinal()" class="btn btn-primary">Final Results</button>
 				</div>
 				
 			</center>
@@ -473,6 +473,7 @@
 					<h3>Difficulty Value: <span id="difficulty"></span></h3>
 					<h3>Final Score: <span id="finalscore"></span></h3>
 					<br><br>
+					<p><b>Name: </b><input type="text" placeholder="name"/></p>
 					<button type="button" onclick="submitScore()" class="btn btn-primary">Submit Score</button>
 				</div>
 				
@@ -480,10 +481,28 @@
 		</div>
 	</div>
 	<div class="tab-pane fade" id="Documentation">
-			
+		<div class="col-xs-12 col-md-12">
+			<center>
+				<p><a href="https://github.com/ZiBuDo/ExchangeRiskSim">Code Repository</a></p>
+				<p><a href="https://github.com/NathanEpstein/stochastic/blob/master/index.js">Math Module for Brownian Motion</a></p>
+				<p><a href="https://github.com/RichieAHB/normal-distribution">Math Module for Normal Distribution</a></p>
+				<br><br>
+				<p>Market simulation is modeled with Geometric Brownian Motion. Forward Contracts are priced to avoid interest rate parity. Currency Options are priced based on Black–Scholes framework.</p>
+			</center>
+		</div>
 	</div>
 	<div class="tab-pane fade" id="Highscores">
-			
+		<center>
+			<h2>Highscores:</h2>
+			<br><br>
+			<button type="button" class="btn btn-default" onclick="refreshHighScores()">Refresh Highscores</button>
+			<br><br>
+			<div class="col-xs-12 col-md-12">
+				<table id="highscorestable" class="tftable" border="1" style="text-align:center">
+					<tr><th>Name</th><th>Score</th></tr>
+				</table>
+			</div>
+		</center>
 	</div>
 	</div>
 	<footer>

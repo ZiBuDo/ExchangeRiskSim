@@ -13,8 +13,30 @@ var dollars = 100000;
 var euros;
 var pesos;
 var loans = 0;
-
+var finalscore;
+var difficulty;
 $(document).ready(function(){
+	$.ajaxSetup({ cache: false });
+	$.ajax({
+	   url: 'assets/php/highscores.php?request=fetch',
+	   error: function() {
+		 
+		  
+	   },
+	   dataType: 'text',
+	   success: function(data) {
+		   var html = "<tr><th>Name</th><th>Score</th></tr>";
+		   html += data;
+		   $("#highscorestable").html(html);
+	   },
+	   type: 'GET'
+	});
+	
+	
+	
+	
+	
+	
 	var labelsEx = [];
 	for(var i = 0; i < 400; i++){
 		if(i == 0){
@@ -275,10 +297,7 @@ $(document).ready(function(){
 	$("#production").change(function(){
 		changeDec();
 	});
-	
-	
-	
-	
+
 	
 	$("#d2p").change(function(){
 		changeDec();
@@ -445,9 +464,9 @@ function submitDecisions(){
 		var finaldollar = endD - endL + endP/dpeso[(round * 400)-1] + endE/deuro[(round * 400)-1];
 		$("#finaldollar").html(comma(finaldollar.toFixed(2)));
 		//lower it is the harder it is
-		var difficulty = ((((deuro[(1 * 400)-1] + deuro[(2 * 400)-1] + deuro[(2 * 400)-1] + deuro[(3 * 400)-1] + deuro[(4 * 400)-1])/4)*10) + (((dpeso[(1 * 400)-1] + dpeso[(2 * 400)-1] + dpeso[(2 * 400)-1] + dpeso[(3 * 400)-1] + dpeso[(4 * 400)-1])/4)/2))/2;
+		difficulty = ((((deuro[(1 * 400)-1] + deuro[(2 * 400)-1] + deuro[(2 * 400)-1] + deuro[(3 * 400)-1] + deuro[(4 * 400)-1])/4)*10) + (((dpeso[(1 * 400)-1] + dpeso[(2 * 400)-1] + dpeso[(2 * 400)-1] + dpeso[(3 * 400)-1] + dpeso[(4 * 400)-1])/4)/2))/2;
 		$("#difficulty").html(difficulty.toFixed(2));
-		var finalscore = finaldollar / difficulty;
+		finalscore = finaldollar / difficulty;
 		$("#finalscore").html(comma(finalscore.toFixed(2)));
 	}
 	//start next round
@@ -457,13 +476,46 @@ function submitDecisions(){
 	production = 500;
 	loans = endL;
 	initRound();
-	$("#Decisions").tab('hide');
-	$("#Round" + rnd).tab('show');
+	$("#navbar a[href='#Round" + rnd + "']").tab('show');
+}
+var username = "";
+function submitScore(){
+	if(username == "" || username == undefined){
+		alert("Enter Your Name");
+	}else{
+		$.ajax({
+		   url: 'assets/php/highscores.php?request=submit&score=' + finalscore + '&diff=' + difficulty + '&name=' + username,
+		   error: function() {
+			 
+			  
+		   },
+		   dataType: 'text',
+		   success: function(data) {
+			   $.ajax({
+				   url: 'assets/php/highscores.php?request=fetch',
+				   error: function() {
+					 
+					  
+				   },
+				   dataType: 'text',
+				   success: function(data) {
+					   var html = "<tr><th>Name</th><th>Score</th></tr>";
+					   html += data;
+					   $("#highscorestable").html(html);
+				   },
+				   type: 'GET'
+				});
+			   $("#navbar a[href='#Highscores']").tab('show');
+		   },
+		   type: 'GET'
+		});
+	}
+}
+function toFinal(){
+	$("#navbar a[href='#Round4']").tab('show');
 }
 function toNext(){
-	var tmp = (round - 1);
-	$("#Decisions").tab('show');
-	$("#Round" + tmp).tab('hide');
+	$("#navbar a[href='#Decisions']").tab('show');
 }
 function changeDec(){
 	//change production
@@ -743,122 +795,119 @@ var cashflowE;
 var cashflowP;
 var projSales;
 function initRound(){
-	$("#RoundNumFinancial").html("Round " + round);
-	$("#intrd1").hide();
-	$("#intrd2").hide();
-	$("#intrd3").hide();
-	$("#intrd4").hide();
-	$("#exrd1").hide();
-	$("#exrd2").hide();
-	$("#exrd3").hide();
-	$("#exrd4").hide();
-	$("#exrd" + round).show();
-	$("#intrd" + round).show();
-	$("#exchangeDE").html(deuro[(round * 400)-1].toFixed(3));
-	$("#exchangeDP").html(dpeso[(round * 400)-1].toFixed(3));
-	$("#exchangeEP").html(epeso[(round * 400)-1].toFixed(3));
-	$("#intRateD").html(intd[(round * 400)-1].toFixed(3));
-	$("#intRateE").html(inte[(round * 400)-1].toFixed(3));
-	$("#intRateP").html(intp[(round * 400)-1].toFixed(3));
 	if(round == 4){
 		$("#decStuff").html("<center><h2>Simulation Over</h2></center>");
-	}
-	$("#roundNumDec").html("Round " + round);
-	$("#fundD").html("$"+comma(dollars.toFixed(2)));
-	$("#fundE").html("&euro;"+comma(euros.toFixed(2)));
-	$("#fundP").html("&#8369;"+comma(pesos.toFixed(2)));
-	$("#fundL").html("$"+comma(loans.toFixed(2)));
-	$("#inv").html(comma(inventory));
-	$("#production").val(production);
-	price = (((25000+(1000*production))/dpeso[(round * 400)-1] + (100*production)/deuro[(round * 400)-1]) / production)/.7;
-	$("#price").html("$" + comma(price.toFixed(2)));
-	prodCosts = (25000+(1000*production));
-	matCosts = 100*production;
-	$("#prodCosts").html("&#8369;" + comma(prodCosts.toFixed(2)));
-	$("#matCosts").html("&euro;" + comma(matCosts.toFixed(2)));
-	
-	
-	
-	
-	
-	$("#d2p").val(+(((prodCosts-pesos+1)/dpeso[(round * 400)-1]).toFixed(2)));
-	$("#d2e").val(+(((matCosts-euros+1)/deuro[(round * 400)-1]).toFixed(2)));
-	$("#e2d").val(0);
-	$("#e2p").val(0);
-	$("#p2e").val(0);
-	$("#p2d").val(0);
-	d2pchange = $("#d2p").val();
-	d2echange = $("#d2e").val();
-	e2pchange = $("#e2p").val();
-	e2dchange = $("#e2d").val();
-	p2echange = $("#p2e").val();
-	p2dchange = $("#p2d").val();
-	loanAMT = 0;
-	$("#amountLoan").val(0);
-	loanType = "take";
-	$("#actionLoan").val("take");
+	}else{
+		$("#RoundNumFinancial").html("Round " + round);
+		$("#intrd1").hide();
+		$("#intrd2").hide();
+		$("#intrd3").hide();
+		$("#intrd4").hide();
+		$("#exrd1").hide();
+		$("#exrd2").hide();
+		$("#exrd3").hide();
+		$("#exrd4").hide();
+		$("#exrd" + round).show();
+		$("#intrd" + round).show();
+		$("#exchangeDE").html(deuro[(round * 400)-1].toFixed(3));
+		$("#exchangeDP").html(dpeso[(round * 400)-1].toFixed(3));
+		$("#exchangeEP").html(epeso[(round * 400)-1].toFixed(3));
+		$("#intRateD").html(intd[(round * 400)-1].toFixed(3));
+		$("#intRateE").html(inte[(round * 400)-1].toFixed(3));
+		$("#intRateP").html(intp[(round * 400)-1].toFixed(3));
+		$("#roundNumDec").html("Round " + round);
+		$("#fundD").html("$"+comma(dollars.toFixed(2)));
+		$("#fundE").html("&euro;"+comma(euros.toFixed(2)));
+		$("#fundP").html("&#8369;"+comma(pesos.toFixed(2)));
+		$("#fundL").html("$"+comma(loans.toFixed(2)));
+		$("#inv").html(comma(inventory));
+		$("#production").val(production);
+		price = (((25000+(1000*production))/dpeso[(round * 400)-1] + (100*production)/deuro[(round * 400)-1]) / production)/.7;
+		$("#price").html("$" + comma(price.toFixed(2)));
+		prodCosts = (25000+(1000*production));
+		matCosts = 100*production;
+		$("#prodCosts").html("&#8369;" + comma(prodCosts.toFixed(2)));
+		$("#matCosts").html("&euro;" + comma(matCosts.toFixed(2)));
+		
+		$("#d2p").val(+(((prodCosts-pesos+1)/dpeso[(round * 400)-1]).toFixed(2)));
+		$("#d2e").val(+(((matCosts-euros+1)/deuro[(round * 400)-1]).toFixed(2)));
+		$("#e2d").val(0);
+		$("#e2p").val(0);
+		$("#p2e").val(0);
+		$("#p2d").val(0);
+		d2pchange = $("#d2p").val();
+		d2echange = $("#d2e").val();
+		e2pchange = $("#e2p").val();
+		e2dchange = $("#e2d").val();
+		p2echange = $("#p2e").val();
+		p2dchange = $("#p2d").val();
+		loanAMT = 0;
+		$("#amountLoan").val(0);
+		loanType = "take";
+		$("#actionLoan").val("take");
 
-	$("#actiondec").val("buy");
-	$("#actiondpc").val("buy");
-	$("#actionepc").val("buy");
-	rateDE = (1/+(deuro[(round * 400)-1] * (1+intd[(round * 400)-1]/100)/(1+inte[(round * 400)-1]/100))).toFixed(3);
-	rateDP = (1/+(dpeso[(round * 400)-1] * (1+intd[(round * 400)-1]/100)/(1+intp[(round * 400)-1]/100))).toFixed(3);
-	rateEP = (1/+(epeso[(round * 400)-1] * (1+inte[(round * 400)-1]/100)/(1+intp[(round * 400)-1]/100))).toFixed(3);
-	$("#ratedec").html("$"+rateDE+"/&euro;");
-	$("#ratedpc").html("$"+rateDP+"/&#8369;");
-	$("#rateepc").html("&euro;"+rateEP+"/&#8369;");
-	$("#unitsdec").val(0);
-	$("#unitsdpc").val(0);
-	$("#unitsepc").val(0);
-	unitsDE = 0;
-	unitsDP = 0;
-	unitsEP = 0;
-	typeDE = "buy";
-	typeDP = "buy";
-	typeEP = "buy";
-	cashflowDE = rateDE * $("#unitsdec").val();
-	cashflowDP = rateDP * $("#unitsdpc").val();	
-	cashflowEP = rateEP * $("#unitsepc").val();
-	$("#cashdec").html("$"+cashflowDE);
-	$("#cashdpc").html("$"+cashflowDP);
-	$("#cashepc").html("$"+cashflowEP);
-	
-	//initialize currency with call calculations
-	strikeE = deuro[(round * 400)-1];
-	strikeP = dpeso[(round * 400)-1];
-	$("#strikee").val(+(strikeE.toFixed(3)));
-	$("#strikep").val(+(strikeP.toFixed(3)));
-	$("#typee").val("call");
-	$("#typep").val("call");
-	var d1E = (Math.log(deuro[(round * 400)-1]/strikeE) + (intd[(round * 400)-1]/100 - inte[(round * 400)-1]/100 + (.09/2)))/.3;
-	var d2E = d1E - .3;
-	var d1P = (Math.log(dpeso[(round * 400)-1]/strikeP) + (intd[(round * 400)-1]/100 - intp[(round * 400)-1]/100 + (.16/2)))/.4;
-	var d2P = d1P - .4;
-	priceE = (deuro[(round * 400)-1] * Math.exp(-inte[(round * 400)-1]/100) * normDist.cdf(d1E)) - (strikeE * Math.exp(-intd[(round * 400)-1]/100) * normDist.cdf(d2E));
-	priceP = (dpeso[(round * 400)-1] * Math.exp(-intp[(round * 400)-1]/100) * normDist.cdf(d1P)) - (strikeP * Math.exp(-intd[(round * 400)-1]/100) * normDist.cdf(d2P));
-	$("#pricee").html("$" + priceE.toFixed(4));
-	$("#pricep").html("$" + priceP.toFixed(4));
-	unitsE = 0;
-	unitsP = 0;
-	$("#unitse").val(0);
-	$("#unitsp").val(0);
-	cashflowE = -1 * priceE * unitsE;
-	cashflowP = -1 * priceP * unitsP;
-	$("#cashe").html("$" + comma(cashflowE.toFixed(2)));
-	$("#cashp").html("$" + comma(cashflowP.toFixed(2)));
-	
-	
-	endL = loans;
-	intdue = endL * intd[(round * 400)-1]/100;
-	$("#intdue").html("$"+comma(intdue.toFixed(2)));
-	calcEnd();
-	$("#fundDf").html(comma(endD.toFixed(2)));
-	$("#fundEf").html(comma(endE.toFixed(2)));
-	$("#fundPf").html(comma(endP.toFixed(2)));
-	$("#fundLf").html(comma(endL.toFixed(2)));
-	projSales = (((((-5/12) * price) + 175)/100)*production)* price;
-	$("#projSales").html("$" + comma(projSales.toFixed(2)));
-	changeDec();
+		$("#actiondec").val("buy");
+		$("#actiondpc").val("buy");
+		$("#actionepc").val("buy");
+		rateDE = (1/+(deuro[(round * 400)-1] * (1+intd[(round * 400)-1]/100)/(1+inte[(round * 400)-1]/100))).toFixed(3);
+		rateDP = (1/+(dpeso[(round * 400)-1] * (1+intd[(round * 400)-1]/100)/(1+intp[(round * 400)-1]/100))).toFixed(3);
+		rateEP = (1/+(epeso[(round * 400)-1] * (1+inte[(round * 400)-1]/100)/(1+intp[(round * 400)-1]/100))).toFixed(3);
+		$("#ratedec").html("$"+rateDE+"/&euro;");
+		$("#ratedpc").html("$"+rateDP+"/&#8369;");
+		$("#rateepc").html("&euro;"+rateEP+"/&#8369;");
+		$("#unitsdec").val(0);
+		$("#unitsdpc").val(0);
+		$("#unitsepc").val(0);
+		unitsDE = 0;
+		unitsDP = 0;
+		unitsEP = 0;
+		typeDE = "buy";
+		typeDP = "buy";
+		typeEP = "buy";
+		cashflowDE = rateDE * $("#unitsdec").val();
+		cashflowDP = rateDP * $("#unitsdpc").val();	
+		cashflowEP = rateEP * $("#unitsepc").val();
+		$("#cashdec").html("$"+cashflowDE);
+		$("#cashdpc").html("$"+cashflowDP);
+		$("#cashepc").html("$"+cashflowEP);
+		
+		//initialize currency with call calculations
+		strikeE = deuro[(round * 400)-1];
+		strikeP = dpeso[(round * 400)-1];
+		$("#strikee").val(+(strikeE.toFixed(3)));
+		$("#strikep").val(+(strikeP.toFixed(3)));
+		$("#typee").val("call");
+		$("#typep").val("call");
+		var d1E = (Math.log(deuro[(round * 400)-1]/strikeE) + (intd[(round * 400)-1]/100 - inte[(round * 400)-1]/100 + (.09/2)))/.3;
+		var d2E = d1E - .3;
+		var d1P = (Math.log(dpeso[(round * 400)-1]/strikeP) + (intd[(round * 400)-1]/100 - intp[(round * 400)-1]/100 + (.16/2)))/.4;
+		var d2P = d1P - .4;
+		priceE = (deuro[(round * 400)-1] * Math.exp(-inte[(round * 400)-1]/100) * normDist.cdf(d1E)) - (strikeE * Math.exp(-intd[(round * 400)-1]/100) * normDist.cdf(d2E));
+		priceP = (dpeso[(round * 400)-1] * Math.exp(-intp[(round * 400)-1]/100) * normDist.cdf(d1P)) - (strikeP * Math.exp(-intd[(round * 400)-1]/100) * normDist.cdf(d2P));
+		$("#pricee").html("$" + priceE.toFixed(4));
+		$("#pricep").html("$" + priceP.toFixed(4));
+		unitsE = 0;
+		unitsP = 0;
+		$("#unitse").val(0);
+		$("#unitsp").val(0);
+		cashflowE = -1 * priceE * unitsE;
+		cashflowP = -1 * priceP * unitsP;
+		$("#cashe").html("$" + comma(cashflowE.toFixed(2)));
+		$("#cashp").html("$" + comma(cashflowP.toFixed(2)));
+		
+		
+		endL = loans;
+		intdue = endL * intd[(round * 400)-1]/100;
+		$("#intdue").html("$"+comma(intdue.toFixed(2)));
+		calcEnd();
+		$("#fundDf").html(comma(endD.toFixed(2)));
+		$("#fundEf").html(comma(endE.toFixed(2)));
+		$("#fundPf").html(comma(endP.toFixed(2)));
+		$("#fundLf").html(comma(endL.toFixed(2)));
+		projSales = (((((-5/12) * price) + 175)/100)*production)* price;
+		$("#projSales").html("$" + comma(projSales.toFixed(2)));
+		changeDec();
+	}
 }
 function checkNumber(html){
 	if(Number($(html).val()) == "NaN"){
