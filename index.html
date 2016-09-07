@@ -471,9 +471,10 @@
 				<div class="col-xs-12 col-md-12">
 					<h3>Final Dollar Value: <span id="finaldollar"></span></h3>
 					<h3>Difficulty Value: <span id="difficulty"></span></h3>
+					<small>Lower the Difficulty the harder it is</small>
 					<h3>Final Score: <span id="finalscore"></span></h3>
 					<br><br>
-					<p><b>Name: </b><input id="username" type="text" placeholder="name"/></p>
+					<p><b>Name: </b><input id="username" type="text" placeholder="Name"/></p>
 					<button type="button" onclick="submitScore()" class="btn btn-primary">Submit Score</button>
 				</div>
 				
@@ -482,12 +483,14 @@
 	</div>
 	<div class="tab-pane fade" id="Documentation">
 		<div class="col-xs-12 col-md-12">
-			<center>
+			<center class="well well-lg" style="background-color:white">
+				<br><h2>Documentation</h2><br>
 				<p><a href="https://github.com/ZiBuDo/ExchangeRiskSim">Code Repository</a></p>
 				<p><a href="https://github.com/NathanEpstein/stochastic/blob/master/index.js">Math Module for Brownian Motion</a></p>
 				<p><a href="https://github.com/RichieAHB/normal-distribution">Math Module for Normal Distribution</a></p>
 				<br><br>
 				<p>Market simulation is modeled with Geometric Brownian Motion. Forward Contracts are priced to avoid interest rate parity. Currency Options are priced based on Black Scholes framework.</p>
+				<br><br>
 			</center>
 		</div>
 	</div>
