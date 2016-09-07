@@ -473,7 +473,7 @@
 					<h3>Difficulty Value: <span id="difficulty"></span></h3>
 					<h3>Final Score: <span id="finalscore"></span></h3>
 					<br><br>
-					<p><b>Name: </b><input type="text" placeholder="name"/></p>
+					<p><b>Name: </b><input id="username" type="text" placeholder="name"/></p>
 					<button type="button" onclick="submitScore()" class="btn btn-primary">Submit Score</button>
 				</div>
 				
@@ -487,7 +487,7 @@
 				<p><a href="https://github.com/NathanEpstein/stochastic/blob/master/index.js">Math Module for Brownian Motion</a></p>
 				<p><a href="https://github.com/RichieAHB/normal-distribution">Math Module for Normal Distribution</a></p>
 				<br><br>
-				<p>Market simulation is modeled with Geometric Brownian Motion. Forward Contracts are priced to avoid interest rate parity. Currency Options are priced based on Black–Scholes framework.</p>
+				<p>Market simulation is modeled with Geometric Brownian Motion. Forward Contracts are priced to avoid interest rate parity. Currency Options are priced based on Black Scholes framework.</p>
 			</center>
 		</div>
 	</div>
@@ -501,6 +501,7 @@
 				<table id="highscorestable" class="tftable" border="1" style="text-align:center">
 					<tr><th>Name</th><th>Score</th></tr>
 				</table>
+				<br><br>
 			</div>
 		</center>
 	</div>

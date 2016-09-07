@@ -25,7 +25,7 @@ $(document).ready(function(){
 	   },
 	   dataType: 'text',
 	   success: function(data) {
-		   var html = "<tr><th>Name</th><th>Score</th></tr>";
+		   var html = "<tr><th>Name</th><th>Score</th><th>Difficulty</th></tr>";
 		   html += data;
 		   $("#highscorestable").html(html);
 	   },
@@ -480,6 +480,7 @@ function submitDecisions(){
 }
 var username = "";
 function submitScore(){
+	username = $("#username").val();
 	if(username == "" || username == undefined){
 		alert("Enter Your Name");
 	}else{
@@ -499,7 +500,7 @@ function submitScore(){
 				   },
 				   dataType: 'text',
 				   success: function(data) {
-					   var html = "<tr><th>Name</th><th>Score</th></tr>";
+					   var html = "<tr><th>Name</th><th>Score</th><th>Difficulty</th></tr>";
 					   html += data;
 					   $("#highscorestable").html(html);
 				   },
@@ -510,6 +511,22 @@ function submitScore(){
 		   type: 'GET'
 		});
 	}
+}
+function refreshHighScores(){
+  $.ajax({
+	   url: 'assets/php/highscores.php?request=fetch',
+	   error: function() {
+		 
+		  
+	   },
+	   dataType: 'text',
+	   success: function(data) {
+		   var html = "<tr><th>Name</th><th>Score</th><th>Difficulty</th></tr>";
+		   html += data;
+		   $("#highscorestable").html(html);
+	   },
+	   type: 'GET'
+	});
 }
 function toFinal(){
 	$("#navbar a[href='#Round4']").tab('show');
